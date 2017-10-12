@@ -44,8 +44,8 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-			<scope>provided</scope>
 		</dependency>
+
 
 		<!-- MySQL JDBC driver -->
 		<!-- http://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -54,14 +54,14 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>6.0.4</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${springframework-version}</version>
 		</dependency>
-		
+
 	</dependencies>
 	<build>
 		<finalName>reading-monitor</finalName>

@@ -8,4 +8,5 @@ import com.readingmonitor.dto.Topic;
 public interface BookService {
 	List<Topic> getAllTopics();
 	List<Book> getAllBooks();
+	List<Topic> getAllBooksByTopic();
 }
