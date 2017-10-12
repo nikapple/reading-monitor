@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.readingmonitor.service.BookService;
 
@@ -13,10 +14,9 @@ public class BookController {
 	@Autowired
 	BookService bookService;
 	
-	@RequestMapping()
-	public String displayBooks(Model model){
-		model.addAttribute("bookList",bookService.getAllBooks());
-		model.addAttribute("topicList",bookService.getAllTopics());
+	@RequestMapping(value="/allBooks", method=RequestMethod.GET)
+	public String displayAllBooksByTopic(Model model){
+		model.addAttribute("topicList",bookService.getAllBooksByTopic());
 		return "all-book-list-topicwise";
 	}
 }
