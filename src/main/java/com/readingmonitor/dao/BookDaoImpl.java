@@ -36,11 +36,37 @@ public class BookDaoImpl extends DaoImpl implements BookDao {
 		}
 		return bookList;
 	}
+	
+	@Override
+	public List<Book> getBooksByTopic(String topicName) {
+
+		String sql = "SELECT "
+				+ "b.id as book_id, b.book_name as book_name,"
+				+ "b.author as author,t.id as topic_id,"
+				+ "t.topic_name as topic_name "
+				+ "FROM book b, topic t "
+				+ "WHERE b.topic_id = t.id AND t.topic_name=:topicName";
+		
+		List<Book> bookList = new ArrayList<Book>();
+		Map<String,Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("topicName", topicName);
+		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(sql,
+				paramMap);
+		for(Map<String,Object> row: rows){
+			Book book = new Book();
+			book.setId((Integer)(row.get("book_id")));
+			book.setName((String)(row.get("book_name")));
+			book.setAuthor((String)(row.get("author")));
+			book.setTopic(new Topic((Integer)(row.get("topic_id")),(String)(row.get("topic_name"))));
+			bookList.add(book);
+		}
+		return bookList;
+	}
 
 	@Override
 	public List<Topic> getAllTopics() {
 		String sql = "SELECT "
-				+ "topic_id,"
+				+ "id,"
 				+ "topic_name "
 				+ "FROM topic ";
 		List<Topic> topicList = new ArrayList<Topic>();
@@ -48,7 +74,17 @@ public class BookDaoImpl extends DaoImpl implements BookDao {
 		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(sql,
 				new HashMap<String, Object>());
 		for(Map<String,Object> row: rows){
-			topicList.add(new Topic((Integer)(row.get("topic_id")),(String)(row.get("topic_name"))));
+			topicList.add(new Topic((Integer)(row.get("id")),(String)(row.get("topic_name"))));
+		}
+		return topicList;
+	}
+
+	@Override
+	public List<Topic> getAllBooksByTopic() {
+		List<Topic> topicList = getAllTopics();
+		for(Topic topic : topicList)
+		{
+			topic.setBookList(getBooksByTopic(topic.getName()));
 		}
 		return topicList;
 	}
