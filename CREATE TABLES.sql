@@ -1,5 +1,5 @@
 CREATE TABLE user_details(
-		id INT,
+		id INT auto_increment,
         username VARCHAR(255) UNIQUE NOT NULL,
         first_name  VARCHAR(255) NOT NULL,
 		last_name VARCHAR(255) NOT NULL,
@@ -10,13 +10,13 @@ CREATE TABLE user_details(
 );
 
 CREATE TABLE topic (
-	id INT,
+	id INT auto_increment,
     topic_name VARCHAR(255) UNIQUE NOT NULL,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE book (
-	id INT,
+	id INT auto_increment,
     book_name VARCHAR(255) UNIQUE NOT NULL,
     author VARCHAR(255) NOT NULL,
     topic_id INT NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE book (
 );
 
 CREATE TABLE activity (
-	id INT,
+	id INT auto_increment,
     book_id INT NOT NULL,
     user_id INT NOT NULL,
     read_date DATE NOT NULL,
