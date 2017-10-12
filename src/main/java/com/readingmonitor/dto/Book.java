@@ -5,7 +5,8 @@ public class Book {
 	private int id;
 	private String name;
 	private String author;
-	private int topicId;
+	private Topic topic;
+	
 	public int getId() {
 		return id;
 	}
@@ -24,12 +25,11 @@ public class Book {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public int getTopicId() {
-		return topicId;
+	public Topic getTopic() {
+		return topic;
 	}
-	public void setTopicId(int topicId) {
-		this.topicId = topicId;
+	public void setTopic(Topic topic) {
+		this.topic = topic;
 	}
-	
 	
 }
