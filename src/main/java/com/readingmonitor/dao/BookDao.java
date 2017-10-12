@@ -8,4 +8,6 @@ import com.readingmonitor.dto.Topic;
 public interface BookDao {
 	List<Topic> getAllTopics();
 	List<Book> getAllBooks();
+	List<Topic> getAllBooksByTopic();
+	List<Book> getBooksByTopic(String topicName);
 }
