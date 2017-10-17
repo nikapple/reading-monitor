@@ -1,12 +1,19 @@
 package com.readingmonitor.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
+@Entity
+@Table(name="user_details")
 public class User {
 	
+	@Id
 	private int id;
 	@NotNull
 	@Size(min=3, max=20)
@@ -16,15 +23,18 @@ public class User {
 	private String email;
 	@NotNull
 	@Size(min=3, max=20)
+	@Column(name="first_name")
 	private String firstName;
 	@NotNull
 	@Size(min=3, max=20)
+	@Column(name="last_name")
 	private String lastName;
 	@NotNull
 	@Size(min=10,max=10)
 	private String phone;
 	@NotNull
 	@Size(min=3, max=20)
+	@Column(name="pwd")
 	private String password; 
 	
 	public User(){

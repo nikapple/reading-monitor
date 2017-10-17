@@ -1,10 +1,18 @@
 package com.readingmonitor.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Book {
-	
+	@Id
 	private int id;
+	@Column(name="book_name")
 	private String name;
 	private String author;
+	@ManyToOne
 	private Topic topic;
 	
 	public int getId() {

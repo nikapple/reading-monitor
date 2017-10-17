@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,12 +34,13 @@ public class ActivityController {
 		this.activityService = activityService;
 	}
 	
+	
 	@ResponseBody
 	@RequestMapping(value = "/addActivity", method = RequestMethod.GET)
 	public String addActivity(@RequestParam int bookId, Model model, HttpSession session){
 		User user = (User) session.getAttribute("user");
-		int numRows = activityService.addActivity(user, bookId);
-		return (numRows == 1) ? "true" : "false";
+		int id = activityService.addActivity(user, bookId);
+		return (id >= 0) ? "true" : "false";
 	}
 	
 	@RequestMapping(value = "/activityForm", method = RequestMethod.GET)

@@ -2,9 +2,18 @@ package com.readingmonitor.dto;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+@Entity
 public class Topic {
+	@Id
 	private int id;
+	@Column(name="topic_name")
 	private String name;
+	@Transient
 	private List<Book> bookList;
 	
 	public Topic(){
