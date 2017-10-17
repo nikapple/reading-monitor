@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.readingmonitor.dto.Book;
@@ -14,68 +16,35 @@ import com.readingmonitor.dto.Topic;
 public class BookDaoImpl extends DaoImpl implements BookDao {
 
 	@Override
-	public List<Book> getAllBooks() {
-
-		String sql = "SELECT "
-				+ "b.id as book_id, b.book_name as book_name,"
-				+ "b.author as author,t.id as topic_id,"
-				+ "t.topic_name as topic_name "
-				+ "FROM book b, topic t "
-				+ "WHERE b.topic_id = t.id";
-		List<Book> bookList = new ArrayList<Book>();
-
-		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(sql,
-				new HashMap<String, Object>());
-		for(Map<String,Object> row: rows){
-			Book book = new Book();
-			book.setId((Integer)(row.get("book_id")));
-			book.setName((String)(row.get("book_name")));
-			book.setAuthor((String)(row.get("author")));
-			book.setTopic(new Topic((Integer)(row.get("topic_id")),(String)(row.get("topic_name"))));
-			bookList.add(book);
-		}
-		return bookList;
-	}
-	
-	@Override
 	public List<Book> getBooksByTopic(String topicName) {
 
-		String sql = "SELECT "
-				+ "b.id as book_id, b.book_name as book_name,"
-				+ "b.author as author,t.id as topic_id,"
-				+ "t.topic_name as topic_name "
-				+ "FROM book b, topic t "
-				+ "WHERE b.topic_id = t.id AND t.topic_name=:topicName";
+		Session session = getSessionFactory().openSession();
+		session.beginTransaction();
 		
-		List<Book> bookList = new ArrayList<Book>();
-		Map<String,Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("topicName", topicName);
-		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(sql,
-				paramMap);
-		for(Map<String,Object> row: rows){
-			Book book = new Book();
-			book.setId((Integer)(row.get("book_id")));
-			book.setName((String)(row.get("book_name")));
-			book.setAuthor((String)(row.get("author")));
-			book.setTopic(new Topic((Integer)(row.get("topic_id")),(String)(row.get("topic_name"))));
-			bookList.add(book);
-		}
+		@SuppressWarnings("unchecked")
+		List<Book> bookList = session.createCriteria(Book.class)
+				.createAlias("topic", "t")
+				.add(Restrictions.eq("t.name",topicName))
+				.list();
+		
+		session.getTransaction();
+		session.close();
+		
 		return bookList;
 	}
 
 	@Override
 	public List<Topic> getAllTopics() {
-		String sql = "SELECT "
-				+ "id,"
-				+ "topic_name "
-				+ "FROM topic ";
-		List<Topic> topicList = new ArrayList<Topic>();
 		
-		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(sql,
-				new HashMap<String, Object>());
-		for(Map<String,Object> row: rows){
-			topicList.add(new Topic((Integer)(row.get("id")),(String)(row.get("topic_name"))));
-		}
+		Session session = getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		@SuppressWarnings("unchecked")
+		List<Topic> topicList = session.createCriteria(Topic.class).list();
+		
+		session.getTransaction();
+		session.close();
+		
 		return topicList;
 	}
 

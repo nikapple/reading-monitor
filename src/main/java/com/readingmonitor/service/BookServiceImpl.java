@@ -21,11 +21,6 @@ public class BookServiceImpl implements BookService{
 	}
 
 	@Override
-	public List<Book> getAllBooks() {
-		return bookDao.getAllBooks();
-	}
-
-	@Override
 	public List<Topic> getAllBooksByTopic() {
 		return bookDao.getAllBooksByTopic();
 	}
