@@ -12,6 +12,7 @@ public class Book {
 	@Column(name="book_name")
 	private String name;
 	private String author;
+	private Boolean borrowed;
 	@ManyToOne
 	private Topic topic;
 	
@@ -38,6 +39,12 @@ public class Book {
 	}
 	public void setTopic(Topic topic) {
 		this.topic = topic;
+	}
+	public Boolean isBorrowed() {
+		return borrowed;
+	}
+	public void setBorrowed(Boolean borrowed) {
+		this.borrowed = borrowed;
 	}
 	
 }

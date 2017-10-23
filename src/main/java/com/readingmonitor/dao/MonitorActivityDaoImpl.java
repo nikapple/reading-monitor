@@ -20,14 +20,10 @@ public class MonitorActivityDaoImpl extends DaoImpl implements MonitorActivityDa
 	public int getActivitiesCount(){
 		String hql = "select count(*) from Activity";
 		
-		Session session = getSessionFactory().openSession();
-		session.beginTransaction();
+		Session session = getEntityManager().unwrap(Session.class);
 		
 		Query query = session.createQuery(hql);
 		int result = ((Long)query.uniqueResult()).intValue();
-		
-		session.getTransaction().commit();
-		session.close();
 		
 		return result;
 	}
@@ -35,8 +31,7 @@ public class MonitorActivityDaoImpl extends DaoImpl implements MonitorActivityDa
 	@Override
 	public List<Activity> getActivities(User user, Date startDate, Date endDate) {
 		
-		Session session = getSessionFactory().openSession();
-		session.beginTransaction();
+		Session session = getEntityManager().unwrap(Session.class);
 		
 		@SuppressWarnings("unchecked")
 		List<Activity> activityList =  (List<Activity>) session.createCriteria(Activity.class)
@@ -45,9 +40,6 @@ public class MonitorActivityDaoImpl extends DaoImpl implements MonitorActivityDa
 		.createAlias("user", "u")
 		.add(Restrictions.eq("u.id", user.getId()))
 		.list();
-		
-		session.getTransaction().commit();
-		session.close();
 		
 		return activityList;
 	}
@@ -62,13 +54,10 @@ public class MonitorActivityDaoImpl extends DaoImpl implements MonitorActivityDa
 		activity.setBook(book);
 		activity.setReadingDate(new Date());
 		
-		Session session = getSessionFactory().openSession();
-		session.beginTransaction();
+		Session session = getEntityManager().unwrap(Session.class);
 		
 		session.save(activity);
 		
-		session.getTransaction().commit();
-		session.close();
 		return activity.getId();
 	}
 

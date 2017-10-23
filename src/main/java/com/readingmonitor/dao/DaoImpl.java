@@ -1,14 +1,24 @@
 package com.readingmonitor.dao;
 
-import javax.sql.DataSource;
-
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 public class DaoImpl {
 
-	@Autowired
+	@PersistenceContext
+    private EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	
+	
+	/*@Autowired
 	private SessionFactory sessionFactory;
 	
 	
@@ -35,5 +45,5 @@ public class DaoImpl {
 
 	public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
-	}
+	}*/
 }

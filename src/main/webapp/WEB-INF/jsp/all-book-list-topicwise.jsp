@@ -9,11 +9,27 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
       $(document).ready(function(){
-    	  $('[name="book"]').click(function(){
+    	  $('[name="read"]').click(function(){
     		  var clickedBook = this;
     		  if(confirm("Are you really done reading?")){
     			  $.ajax({                                      
     	    	      url: '/reading-monitor/addActivity?bookId='+$(this).val(),              
+    	    	      type: "get",
+    	    	      success: function(result){
+    	    	    	  console.log(result);
+    	    	    	  if(result === "true"){
+    	    	    		  console.log("disabling");
+    	    	    		  $(clickedBook).attr("disabled", true);
+    	    	    	  }
+    	    	      }
+    	    	   });
+    		  }
+    	    });
+    	  	$('[name="borrow"]').click(function(){
+    		  var clickedBook = this;
+    		  if(confirm("Borrowing This?")){
+    			  $.ajax({                                      
+    	    	      url: '/reading-monitor/borrowBook?bookId='+$(this).val(),              
     	    	      type: "get",
     	    	      success: function(result){
     	    	    	  console.log(result);
@@ -30,7 +46,7 @@
 </head>
 <body>
 	<h1>My Daily Reading List</h1>
-	<a href="../logout">Logout</a>
+	<a href="logout">Logout</a>
 	<table>
 		<tr>
 			<th>Topic Name</th>
@@ -45,15 +61,17 @@
 							<th>Name</th>
 							<th>Author</th>
 							<th>Done Reading?</th>
+							<th>Borrow</th>
 						</tr>
 						<c:forEach items="${topic.bookList}" var="book">
 							<tr>
 								<td><c:out value="${book.id}" /></td>
 								<td><c:out value="${book.name}" /></td>
 								<td><c:out value="${book.author}" /></td>
-								<td><input type="checkbox" name="book" id="${book.id}"
+								<td><input type="checkbox" name="read" id="${book.id}"
 									value="${book.id}"><br></td>
-
+								<td><input type="checkbox" name="borrow" id="${book.id}"
+									value="${book.id}"><br></td>
 							</tr>
 						</c:forEach>
 					</table>

@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.readingmonitor.dao.MonitorActivityDao;
 import com.readingmonitor.dto.Activity;
 import com.readingmonitor.dto.User;
 
 @Service
+@Transactional
 public class MonitorActivityServiceImpl implements MonitorActivityService{
 
 	@Autowired
