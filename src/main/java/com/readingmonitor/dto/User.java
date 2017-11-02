@@ -2,6 +2,7 @@ package com.readingmonitor.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import org.hibernate.validator.constraints.Email;
 public class User {
 	
 	@Id
+	@GeneratedValue
 	private int id;
 	@NotNull
 	@Size(min=3, max=20)

@@ -38,7 +38,7 @@ public class UserDaoImpl extends DaoImpl implements UserDao {
 		Session session = getEntityManager().unwrap(Session.class);
 		
 		session.save(user);
-
+		System.out.println(user.getId());
 		return user.getId();
 	}
 
