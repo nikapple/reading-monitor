@@ -1,5 +1,6 @@
 package com.readingmonitor.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,7 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 @Entity
-public class Topic {
+public class Topic implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private int id;
 	@Column(name="topic_name")

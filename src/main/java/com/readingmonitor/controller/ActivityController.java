@@ -47,13 +47,12 @@ public class ActivityController {
 		return "activity-report-form";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value = "/getActivities", method = RequestMethod.GET)
-	public String getActivitiesByUser(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate, 
+	public List<Activity> getActivitiesByUser(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate, 
 			@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate, Model model, HttpSession session){
 		User user = (User) session.getAttribute("user");
 		System.out.println(startDate+" "+endDate+" "+user.getEmail());
-		List<Activity> activityList = activityService.getActivities(user, startDate, endDate);
-		model.addAttribute("activityList",activityList);
-		return "activity-report";
+		return activityService.getActivities(user, startDate, endDate);
 	}
 }

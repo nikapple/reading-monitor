@@ -2,12 +2,15 @@
 <html>
    <head>
       <title>Spring MVC Form Handling</title>
+      <script>var ctx = "${pageContext.request.contextPath}"</script>
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script src="${pageContext.request.contextPath}/resources/javascript/processLogin.js"></script>
    </head>
 
    <body>
    	 <p>${failedLoginMessage}</p>
       <h2>Login</h2>
-      <form:form modelAttribute="user" method = "POST" action = "/reading-monitor/login">
+      <form:form id="loginForm" modelAttribute="user" method = "POST" action = "/reading-monitor/login">
          <table>
             <tr>
                <td><form:label path = "email">Email</form:label></td>

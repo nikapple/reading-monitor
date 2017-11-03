@@ -25,7 +25,7 @@ import com.readingmonitor.service.UserService;
 
 @Controller
 public class UserController {
-	
+
 	@Autowired
 	UserService userService;
 
@@ -36,7 +36,7 @@ public class UserController {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register(Model model) {
 		model.addAttribute("user", new User());
@@ -44,37 +44,39 @@ public class UserController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/register", method = RequestMethod.POST, produces =MediaType.APPLICATION_JSON_VALUE)
-	public RegistrationFormResponse processRegistration(@ModelAttribute("user") @Valid User user,
-			BindingResult bindingResult, Model model) {
-		
+	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public RegistrationFormResponse processRegistration(
+			@ModelAttribute("user") @Valid User user,
+			BindingResult bindingResult) {
+
 		RegistrationFormResponse response = new RegistrationFormResponse();
-		
+
 		if (bindingResult.hasErrors()) {
-			 Map<String, String> errors = bindingResult.getFieldErrors().stream()
-		               .collect(
-		                     Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)
-		                 );
-			 response.setValidated(false);
-			 response.setErrorMessages(errors);
+			Map<String, String> errors = bindingResult
+					.getFieldErrors()
+					.stream()
+					.collect(
+							Collectors.toMap(FieldError::getField,
+									FieldError::getDefaultMessage));
+			response.setValidated(false);
+			response.setErrorMessages(errors);
 		} else if (userService.checkUserExists(user)) {
-			 Map<String, String> errors = new HashMap<>();
-			 errors.put("userExists", "User already exists");
-			 response.setValidated(false);
-			 response.setErrorMessages(errors);
-		}
-		else{
+			Map<String, String> errors = new HashMap<>();
+			errors.put("userExists", "User already exists");
+			response.setValidated(false);
+			response.setErrorMessages(errors);
+		} else {
 			int userId = userService.insertUser(user);
 			response.setValidated(true);
 			response.setUserId(userId);
 		}
 		return response;
 	}
-	
+
 	@RequestMapping(value = "/userHome/{username}", method = RequestMethod.GET)
 	public String userHome(@PathVariable String username, Model model,
 			HttpSession session) {
-		
+
 		User user = (User) session.getAttribute("user");
 		if (user != null && username.equals(user.getUsername())) {
 			return "userHome";
